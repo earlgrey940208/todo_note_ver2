@@ -49,6 +49,27 @@ async function loadProject(projectName) {
     }
 }
 
+// 새 프로젝트 생성
+async function createProject(projectName) {
+    try {
+        const success = await ipcRenderer.invoke('create-project', projectName);
+        
+        if (success) {
+            // 프로젝트 목록 새로고침
+            await loadProjects();
+            // 새로 생성된 프로젝트 로딩
+            await loadProject(projectName);
+            return true;
+        } else {
+            console.error('프로젝트 생성 실패: 이미 존재하는 이름이거나 오류 발생');
+            return false;
+        }
+    } catch (error) {
+        console.error('프로젝트 생성 실패:', error);
+        return false;
+    }
+}
+
 // Pin Note 업데이트
 function updatePinNote() {
     const pinTextarea = document.querySelector('.pin-textarea');
@@ -70,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 전역에서 접근 가능하도록 함수들 노출
 window.ipcRenderer = ipcRenderer;
 window.loadProject = loadProject;
+window.createProject = createProject;
 // currentFiles를 실시간으로 접근할 수 있도록 getter 함수로 노출
 window.getCurrentFiles = () => currentFiles;
 window.getCurrentProject = () => currentProject;

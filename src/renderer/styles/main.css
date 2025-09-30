@@ -248,24 +248,27 @@ body {
     font-size: 16px;
 }
 
-.project-name {
+/* 새 프로젝트 입력창 스타일 */
+.new-project-input-container {
+    padding: 8px 16px;
+    margin-bottom: 8px;
+}
+
+.new-project-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid var(--accent-primary);
+    border-radius: 6px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     font-size: 14px;
-    color: var(--text-secondary);
-    font-weight: 400;
-    flex: 1;
+    outline: none;
+    transition: all 0.2s ease;
 }
 
-.project-indicator {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--success);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.project-item.active .project-indicator {
-    opacity: 1;
+.new-project-input:focus {
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 /* 메인 컨텐츠 */

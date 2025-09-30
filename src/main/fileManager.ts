@@ -142,4 +142,36 @@ export class FileManager {
       return false;
     }
   }
+
+  // 새 프로젝트 생성
+  createProject(projectName: string): boolean {
+    try {
+      const projectPath = path.join(this.dataPath, projectName);
+      
+      // 이미 같은 이름의 프로젝트가 존재하는지 확인
+      if (fs.existsSync(projectPath)) {
+        return false;
+      }
+
+      // 데이터 폴더가 없으면 생성
+      if (!fs.existsSync(this.dataPath)) {
+        fs.mkdirSync(this.dataPath, { recursive: true });
+      }
+
+      // 프로젝트 폴더 생성
+      fs.mkdirSync(projectPath);
+
+      // 기본 파일들 생성
+      const pinnotePath = path.join(projectPath, 'pinnote.txt');
+      const todoPath = path.join(projectPath, 'todo.txt');
+
+      fs.writeFileSync(pinnotePath, ''); // 빈 pinnote 파일
+      fs.writeFileSync(todoPath, ''); // 빈 todo 파일
+
+      return true;
+    } catch (error) {
+      console.error('프로젝트 생성 실패:', error);
+      return false;
+    }
+  }
 }

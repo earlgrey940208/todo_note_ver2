@@ -9,6 +9,7 @@ function initializeUIInteractions() {
     setupProjectTabInteractions();
     setupMemoTabInteractions();
     setupDragAndDrop();
+    setupNewProjectButton();
 }
 
 // 프로젝트 탭 상호작용 설정
@@ -37,6 +38,68 @@ function setupMemoTabInteractions() {
             }
         });
     }
+}
+
+// 새 프로젝트 버튼 설정
+function setupNewProjectButton() {
+    const newBtn = document.querySelector('.new-btn');
+    
+    if (newBtn) {
+        newBtn.addEventListener('click', () => {
+            showNewProjectInput();
+        });
+    }
+}
+
+// 새 프로젝트 입력창 표시
+function showNewProjectInput() {
+    const projectList = document.querySelector('.project-list');
+    
+    // 이미 입력창이 있으면 제거
+    const existingInput = projectList.querySelector('.new-project-input-container');
+    if (existingInput) {
+        existingInput.remove();
+        return;
+    }
+    
+    // 새 프로젝트 입력 컨테이너 생성
+    const inputContainer = document.createElement('div');
+    inputContainer.className = 'new-project-input-container';
+    inputContainer.innerHTML = `
+        <input type="text" class="new-project-input" placeholder="프로젝트 이름 입력" autocomplete="off">
+    `;
+    
+    // 프로젝트 목록 상단에 추가
+    projectList.insertBefore(inputContainer, projectList.firstChild);
+    
+    const input = inputContainer.querySelector('.new-project-input');
+    input.focus();
+    
+    // Enter 키로 프로젝트 생성
+    input.addEventListener('keydown', async (e) => {
+        if (e.key === 'Enter') {
+            const projectName = input.value.trim();
+            if (projectName) {
+                const success = await window.createProject(projectName);
+                if (success) {
+                    inputContainer.remove();
+                } else {
+                    alert('프로젝트 생성에 실패했습니다. 이미 존재하는 이름이거나 오류가 발생했습니다.');
+                }
+            }
+        } else if (e.key === 'Escape') {
+            inputContainer.remove();
+        }
+    });
+    
+    // 포커스 잃을 때 제거
+    input.addEventListener('blur', () => {
+        setTimeout(() => {
+            if (inputContainer.parentNode) {
+                inputContainer.remove();
+            }
+        }, 100);
+    });
 }
 
 // 프로젝트 이름 편집 시작

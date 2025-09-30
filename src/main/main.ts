@@ -57,6 +57,11 @@ function createWindow(): void {
   ipcMain.handle('rename-file', (event, projectName: string, oldFileName: string, newFileName: string) => {
     return fileManager.renameFile(projectName, oldFileName, newFileName);
   });
+
+  // 프로젝트 생성 IPC 핸들러
+  ipcMain.handle('create-project', (event, projectName: string) => {
+    return fileManager.createProject(projectName);
+  });
 }
 
 app.whenReady().then(createWindow);
