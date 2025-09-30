@@ -669,3 +669,97 @@ textarea:focus {
         padding-right: 16px;
     }
 }
+
+/* Todo 체크리스트 스타일 */
+.todo-list {
+    padding: 0;
+    margin: 0;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-secondary);
+    transition: all 0.2s ease;
+}
+
+.todo-item:last-child {
+    border-bottom: none;
+}
+
+.todo-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--color-emerald);
+}
+
+.todo-text {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.todo-item.checked {
+    opacity: 0.6;
+}
+
+.todo-item.checked .todo-text {
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+/* Todo 추가 버튼 스타일 */
+.todo-add-section {
+    padding: 12px 0;
+    border-top: 1px solid var(--border-secondary);
+    margin-top: 8px;
+}
+
+.todo-add-btn {
+    background: var(--color-blue);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.todo-add-btn:hover {
+    background: var(--accent-primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.todo-add-input-container {
+    margin-top: 8px;
+}
+
+.todo-add-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid var(--accent-primary);
+    border-radius: 6px;
+    font-size: 14px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.todo-add-input:focus {
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.todo-add-input::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+}
