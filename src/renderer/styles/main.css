@@ -501,6 +501,112 @@ body {
     font-style: italic;
 }
 
+/* 편집 및 드래그&드랍 스타일 */
+
+/* 인라인 편집 input */
+.edit-input {
+    background: var(--bg-primary);
+    border: 2px solid var(--accent-primary);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: var(--text-primary);
+    outline: none;
+    width: 100%;
+    box-shadow: 0 0 0 3px var(--accent-glow);
+    transition: all 0.2s ease;
+}
+
+.edit-input:focus {
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* 드래그 가능한 요소 */
+.project-tab,
+.memo-tab {
+    cursor: grab;
+    position: relative;
+}
+
+.project-tab:active,
+.memo-tab:active {
+    cursor: grabbing;
+}
+
+/* 드래그 중인 요소 */
+.dragging {
+    opacity: 0.5;
+    transform: rotate(3deg);
+    box-shadow: var(--shadow-lg);
+}
+
+/* 드랍 타겟 */
+.drop-target {
+    position: relative;
+}
+
+.drop-target::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent-primary);
+    border-radius: 2px;
+    z-index: 10;
+    animation: pulse-drop 1s infinite;
+}
+
+@keyframes pulse-drop {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scaleY(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scaleY(1.2);
+    }
+}
+
+/* todo 탭은 드래그 불가 시각적 표시 */
+.memo-tab[data-filename*="todo.txt"] {
+    cursor: default !important;
+}
+
+.memo-tab[data-filename*="todo.txt"]:hover {
+    background: var(--bg-hover) !important;
+}
+
+/* 더블클릭 힌트 */
+.project-tab:not(.active):hover::after,
+.memo-tab:not([data-filename*="todo.txt"]):hover::after {
+    content: '더블클릭으로 이름 수정';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    white-space: nowrap;
+    opacity: 0;
+    animation: fadeInTooltip 0.3s ease forwards;
+    z-index: 100;
+    pointer-events: none;
+}
+
+@keyframes fadeInTooltip {
+    to {
+        opacity: 0.8;
+    }
+}
+
 /* 스크롤바 스타일링 */
 ::-webkit-scrollbar {
     width: 6px;

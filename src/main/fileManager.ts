@@ -92,4 +92,54 @@ export class FileManager {
       return null;
     }
   }
+
+  // 프로젝트 폴더 이름 변경
+  renameProject(oldName: string, newName: string): boolean {
+    try {
+      const oldPath = path.join(this.dataPath, oldName);
+      const newPath = path.join(this.dataPath, newName);
+      
+      if (!fs.existsSync(oldPath)) {
+        return false;
+      }
+      
+      if (fs.existsSync(newPath)) {
+        return false; // 이미 같은 이름의 프로젝트가 존재
+      }
+      
+      fs.renameSync(oldPath, newPath);
+      return true;
+    } catch (error) {
+      console.error('프로젝트 이름 변경 실패:', error);
+      return false;
+    }
+  }
+
+  // 메모 파일 이름 변경
+  renameFile(projectName: string, oldFileName: string, newFileName: string): boolean {
+    try {
+      // todo.txt는 이름 변경 불가
+      if (oldFileName === 'todo.txt') {
+        return false;
+      }
+      
+      const projectPath = path.join(this.dataPath, projectName);
+      const oldFilePath = path.join(projectPath, oldFileName);
+      const newFilePath = path.join(projectPath, newFileName);
+      
+      if (!fs.existsSync(oldFilePath)) {
+        return false;
+      }
+      
+      if (fs.existsSync(newFilePath)) {
+        return false; // 이미 같은 이름의 파일이 존재
+      }
+      
+      fs.renameSync(oldFilePath, newFilePath);
+      return true;
+    } catch (error) {
+      console.error('파일 이름 변경 실패:', error);
+      return false;
+    }
+  }
 }

@@ -21,7 +21,7 @@ function createWindow(): void {
   mainWindow.loadFile(path.join(__dirname, '../../src/renderer/index.html'));
   
   // 개발 중에는 DevTools 열기
-  // mainWindow.webContents.openDevTools();
+//   mainWindow.webContents.openDevTools();
 
   // 윈도우 컨트롤 IPC 핸들러
   ipcMain.on('window-minimize', () => {
@@ -47,6 +47,15 @@ function createWindow(): void {
 
   ipcMain.handle('get-project-data', (event, projectName: string) => {
     return fileManager.getProjectData(projectName);
+  });
+
+  // 이름 변경 IPC 핸들러
+  ipcMain.handle('rename-project', (event, oldName: string, newName: string) => {
+    return fileManager.renameProject(oldName, newName);
+  });
+
+  ipcMain.handle('rename-file', (event, projectName: string, oldFileName: string, newFileName: string) => {
+    return fileManager.renameFile(projectName, oldFileName, newFileName);
   });
 }
 
