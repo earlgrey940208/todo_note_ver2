@@ -1,5 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
+import { FileManager } from './fileManager';
+
+const fileManager = new FileManager();
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -35,6 +38,15 @@ function createWindow(): void {
 
   ipcMain.on('window-close', () => {
     mainWindow.close();
+  });
+
+  // 파일 관리 IPC 핸들러
+  ipcMain.handle('get-projects', () => {
+    return fileManager.getProjects();
+  });
+
+  ipcMain.handle('get-project-data', (event, projectName: string) => {
+    return fileManager.getProjectData(projectName);
   });
 }
 

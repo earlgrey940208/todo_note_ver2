@@ -36,20 +36,8 @@
                     </button>
                 </div>
                 
-                <div class="project-list">
-                    <div class="project-item active">
-                        <div class="project-icon">📁</div>
-                        <span class="project-name">웹 개발 프로젝트</span>
-                        <div class="project-indicator"></div>
-                    </div>
-                    <div class="project-item">
-                        <div class="project-icon">📱</div>
-                        <span class="project-name">모바일 앱</span>
-                    </div>
-                    <div class="project-item">
-                        <div class="project-icon">🎨</div>
-                        <span class="project-name">디자인 시스템</span>
-                    </div>
+                <div class="project-list" id="project-list">
+                    <!-- 프로젝트들이 동적으로 생성됩니다 -->
                 </div>
             </div>
 
@@ -75,21 +63,8 @@
                 <!-- 하단 탭 영역 -->
                 <div class="tabs-container">
                     <div class="tabs-header">
-                        <div class="tabs-nav">
-                            <div class="tab active" data-tab="todo">
-                                <span class="tab-icon">✅</span>
-                                <span class="tab-label">Todo</span>
-                            </div>
-                            <div class="tab" data-tab="memo1">
-                                <span class="tab-icon">📝</span>
-                                <span class="tab-label">아이디어</span>
-                                <button class="tab-close">×</button>
-                            </div>
-                            <div class="tab" data-tab="memo2">
-                                <span class="tab-icon">📊</span>
-                                <span class="tab-label">회의록</span>
-                                <button class="tab-close">×</button>
-                            </div>
+                        <div class="tabs-nav" id="tabs-nav">
+                            <!-- 탭들이 동적으로 생성됩니다 -->
                         </div>
                         <button class="new-tab-btn">
                             <span class="btn-icon">+</span>
@@ -97,64 +72,14 @@
                         </button>
                     </div>
                     
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="todo">
-                            <textarea 
-                                class="content-textarea" 
-                                placeholder="오늘 할 일을 정리해보세요..."
-                                spellcheck="false"
-                            ></textarea>
-                        </div>
-                        <div class="tab-pane" id="memo1">
-                            <textarea 
-                                class="content-textarea" 
-                                placeholder="아이디어를 자유롭게 적어보세요..."
-                                spellcheck="false"
-                            ></textarea>
-                        </div>
-                        <div class="tab-pane" id="memo2">
-                            <textarea 
-                                class="content-textarea" 
-                                placeholder="회의 내용을 기록하세요..."
-                                spellcheck="false"
-                            ></textarea>
-                        </div>
+                    <div class="tab-content" id="tab-content">
+                        <!-- 탭 내용들이 동적으로 생성됩니다 -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        const { ipcRenderer } = require('electron');
-
-        // 윈도우 컨트롤 버튼 기능
-        document.querySelector('.minimize').addEventListener('click', () => {
-            ipcRenderer.send('window-minimize');
-        });
-
-        document.querySelector('.maximize').addEventListener('click', () => {
-            ipcRenderer.send('window-maximize');
-        });
-
-        document.querySelector('.close').addEventListener('click', () => {
-            ipcRenderer.send('window-close');
-        });
-
-        // 탭 전환 기능
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.getAttribute('data-tab');
-                
-                // 모든 탭과 컨텐츠에서 active 제거
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-                
-                // 클릭한 탭과 해당 컨텐츠에 active 추가
-                tab.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-    </script>
+    <script src="js/dataLoader.js"></script>
 </body>
 </html>
