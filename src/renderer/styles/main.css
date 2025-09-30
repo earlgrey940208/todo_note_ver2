@@ -1,0 +1,565 @@
+/* 요즘 트렌디한 앱 스타일 - Discord, Figma, Linear 스타일 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* 유채색 활용한 밝은 테마 */
+    --bg-primary: #fefefe;
+    --bg-secondary: #f0f4f8;
+    --bg-tertiary: #e2e8f0;
+    --bg-hover: #dbeafe;
+    
+    /* 텍스트 색상 */
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    
+    /* 유채색 포인트 색상들 */
+    --accent-primary: #6366f1;  /* 인디고 */
+    --accent-secondary: #8b5cf6; /* 바이올렛 */
+    --accent-tertiary: #06b6d4;  /* 시안 */
+    --accent-glow: rgba(99, 102, 241, 0.3);
+    
+    /* 다양한 유채색들 */
+    --color-emerald: #10b981;
+    --color-amber: #f59e0b;
+    --color-rose: #f43f5e;
+    --color-purple: #8b5cf6;
+    --color-blue: #3b82f6;
+    --color-green: #22c55e;
+    --color-orange: #f97316;
+    --color-pink: #ec4899;
+    
+    /* 상태 색상 */
+    --success: var(--color-emerald);
+    --warning: var(--color-amber);
+    --error: var(--color-rose);
+    
+    /* 보더 */
+    --border-primary: #e2e8f0;
+    --border-secondary: #cbd5e1;
+    
+    /* 그림자 */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+    --shadow-glow: 0 0 20px var(--accent-glow);
+    
+    /* 폰트 */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    font-feature-settings: 'liga' 1, 'kern' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-primary);
+}
+
+/* 커스텀 타이틀바 */
+.titlebar {
+    height: 30px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    -webkit-app-region: drag;
+}
+
+.titlebar-drag {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+}
+
+.app-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.app-icon {
+    font-size: 14px;
+}
+
+.window-controls {
+    display: flex;
+    -webkit-app-region: no-drag;
+}
+
+.control-btn {
+    width: 46px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.control-btn.close:hover {
+    background: var(--color-rose);
+    color: white;
+}
+
+.control-btn.minimize:hover {
+    background: var(--color-amber);
+    color: white;
+}
+
+.control-btn.maximize:hover {
+    background: var(--color-emerald);
+    color: white;
+}
+
+/* 메인 컨테이너 */
+.main-container {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* 사이드바 */
+.sidebar {
+    width: 280px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-primary);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.sidebar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 0%, var(--accent-primary) 50%, transparent 100%);
+    opacity: 0.3;
+}
+
+.sidebar-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-primary);
+}
+
+.sidebar-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.new-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: var(--accent-primary);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.new-btn:hover {
+    background: var(--accent-secondary);
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-1px);
+}
+
+.btn-icon {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.project-list {
+    padding: 8px 16px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.project-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    background: transparent;
+}
+
+.project-item:hover {
+    background: var(--bg-hover);
+    transform: translateX(2px);
+}
+
+.project-item.active {
+    background: var(--accent-primary);
+    box-shadow: var(--shadow-glow);
+}
+
+.project-item.active .project-name {
+    color: white;
+    font-weight: 500;
+}
+
+.project-icon {
+    margin-right: 12px;
+    font-size: 16px;
+}
+
+.project-name {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    flex: 1;
+}
+
+.project-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.project-item.active .project-indicator {
+    opacity: 1;
+}
+
+/* 메인 컨텐츠 */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-primary);
+}
+
+/* Pin Note 섹션 */
+.pin-section {
+    height: 180px; /* 고정 높이로 변경 (약 5줄 정도) */
+    border-bottom: 1px solid var(--border-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+.section-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border-secondary);
+    background: var(--bg-secondary);
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-icon {
+    font-size: 18px;
+}
+
+.pin-content {
+    flex: 1;
+    padding: 20px 24px;
+}
+
+.pin-textarea {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 1.6;
+    resize: none;
+    padding: 0;
+}
+
+.pin-textarea::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* 탭 컨테이너 */
+.tabs-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.tabs-header {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-primary);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tabs-nav {
+    display: flex;
+    gap: 0; /* 탭 간격 완전히 제거 */
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-secondary);
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-right: none; /* 오른쪽 보더 제거로 탭들이 연결된 느낌 */
+}
+
+.tab:last-child {
+    border-right: 1px solid var(--border-secondary); /* 마지막 탭만 오른쪽 보더 */
+}
+
+.tab:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-primary);
+    z-index: 1;
+    border-right: 1px solid var(--border-primary); /* 호버 시 오른쪽 보더 추가 */
+}
+
+.tab.active {
+    background: var(--bg-primary);
+    border-bottom-color: var(--bg-primary);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+    z-index: 2;
+    border-right: 1px solid var(--border-secondary); /* 액티브 탭 오른쪽 보더 */
+}
+
+/* 각 탭별 유채색 적용 */
+.tab[data-tab="todo"].active::after {
+    background: var(--color-emerald);
+}
+
+.tab[data-tab="memo1"].active::after {
+    background: var(--color-purple);
+}
+
+.tab[data-tab="memo2"].active::after {
+    background: var(--color-blue);
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 1px;
+}
+
+.tab-icon {
+    font-size: 14px;
+}
+
+.tab-label {
+    font-weight: 500;
+}
+
+.tab-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+    margin-left: 4px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.tab-close:hover {
+    background: var(--error);
+    color: white;
+}
+
+.new-tab-btn {
+    padding: 8px 12px;
+    background: var(--color-orange);
+    border: 1px solid var(--border-secondary);
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.new-tab-btn:hover {
+    background: var(--color-amber);
+    border-color: var(--color-orange);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* 탭 컨텐츠 */
+.tab-content {
+    flex: 1;
+    position: relative;
+}
+
+.tab-pane {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+}
+
+.tab-pane.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.content-textarea {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 1.6;
+    resize: none;
+    padding: 0;
+}
+
+.content-textarea::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* 스크롤바 스타일링 */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-hover);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border-primary);
+}
+
+/* 포커스 스타일 */
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent-glow);
+    border-radius: 4px;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.project-item,
+.tab {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+/* 반응형 */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 240px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+    
+    .section-header,
+    .pin-content,
+    .tabs-header,
+    .tab-pane {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
