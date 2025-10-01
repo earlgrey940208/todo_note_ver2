@@ -116,14 +116,16 @@ export class FileManager {
   }
 
   // 메모 파일 이름 변경
-  renameFile(projectName: string, oldFileName: string, newFileName: string): boolean {
+  renameFile(projectName: any, oldFileName: string, newFileName: string): boolean {
     try {
+      const name = projectName.name || projectName;
+      
       // todo.txt는 이름 변경 불가
       if (oldFileName === 'todo.txt') {
         return false;
       }
       
-      const projectPath = path.join(this.dataPath, projectName);
+      const projectPath = path.join(this.dataPath, name);
       const oldFilePath = path.join(projectPath, oldFileName);
       const newFilePath = path.join(projectPath, newFileName);
       
