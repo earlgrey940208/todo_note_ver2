@@ -3,15 +3,59 @@
   "version": "1.0.0",
   "description": "프로젝트별 todo와 메모 관리 프로그램",
   "main": "dist/main/main.js",
+  "homepage": "./",
   "scripts": {
     "build": "tsc",
     "start": "npm run build && electron .",
-    "dev": "tsc && electron ."
+    "dev": "tsc && electron .",
+    "dist": "npm run build && electron-builder",
+    "dist:win": "npm run build && electron-builder --win",
+    "pack": "npm run build && electron-builder --dir"
+  },
+  "build": {
+    "appId": "com.todonote.ver2",
+    "productName": "TodoNote",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "dist/**/*",
+      "src/renderer/**/*",
+      "icon.ico",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "Data/",
+        "to": "Data/",
+        "filter": ["**/*"]
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "icon.ico"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "icon.ico"
+    }
   },
   "devDependencies": {
+    "@types/node": "^20.8.0",
     "electron": "^27.0.0",
-    "typescript": "^5.2.0",
-    "@types/node": "^20.8.0"
+    "electron-builder": "^26.0.12",
+    "typescript": "^5.2.0"
   },
   "author": "",
   "license": "MIT"
