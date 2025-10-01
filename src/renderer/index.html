@@ -31,9 +31,14 @@
             <div class="sidebar">
                 <div class="sidebar-header">
                     <h2 class="sidebar-title">프로젝트</h2>
-                    <button class="new-btn">
-                        <span class="btn-icon">+</span>
-                    </button>
+                    <div class="sidebar-buttons">
+                        <button class="new-btn">
+                            <span class="btn-icon">+</span>
+                        </button>
+                        <button class="settings-btn" id="settings-btn" title="설정">
+                            <span class="btn-icon">⚙️</span>
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="project-list" id="project-list">
@@ -76,11 +81,35 @@
         </div>
     </div>
 
+    <!-- 설정 모달 -->
+    <div class="modal-overlay" id="settings-modal" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>설정</h3>
+            </div>
+            <div class="modal-content">
+                <div class="setting-item">
+                    <label class="setting-label">Data 폴더 위치</label>
+                    <div class="path-display">
+                        <input type="text" id="data-path-input" class="path-input" readonly>
+                        <button id="change-path-btn" class="btn-browse">폴더 변경</button>
+                    </div>
+                    <p class="setting-description">프로젝트 데이터가 저장되는 폴더입니다.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="settings-save" class="btn-primary">저장</button>
+                <button id="settings-cancel" class="btn-secondary">취소</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/windowControls.js"></script>
     <script src="js/projectManager.js"></script>
     <script src="js/todoManager.js"></script>
     <script src="js/tabManager.js"></script>
     <script src="js/autoSave.js"></script>
+    <script src="js/settings.js"></script>
     <script src="js/dataLoader.js"></script>
     <script src="js/uiInteractions.js"></script>
 </body>

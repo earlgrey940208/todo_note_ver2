@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import * as path from 'path';
 import { FileManager } from './fileManager';
 
@@ -104,6 +104,28 @@ function createWindow(): void {
     // 새 메모 파일 생성 IPC 핸들러
     ipcMain.handle('create-memo-file', (event, projectName: string, fileName: string) => {
       return fileManager.createMemoFile(projectName, fileName);
+    });
+
+    // 설정 관련 IPC 핸들러
+    ipcMain.handle('get-data-path', () => {
+      return fileManager.getDataPath();
+    });
+
+    ipcMain.handle('select-folder', async () => {
+      const result = await dialog.showOpenDialog(mainWindow, {
+        properties: ['openDirectory'],
+        title: 'Data 폴더 선택',
+        defaultPath: fileManager.getDataPath()
+      });
+      
+      if (!result.canceled && result.filePaths.length > 0) {
+        return result.filePaths[0];
+      }
+      return null;
+    });
+
+    ipcMain.handle('change-data-path', (event, newPath: string) => {
+      return fileManager.setDataPath(newPath);
     });
   } catch (error) {
     console.error('[TodoNote] Error in createWindow:', error);

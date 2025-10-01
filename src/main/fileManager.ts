@@ -1,12 +1,76 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { app } from 'electron';
 import { Project, ProjectFile, ProjectData } from '../shared/types';
 
 export class FileManager {
   private dataPath: string;
+  private configPath: string;
 
   constructor() {
-    this.dataPath = path.join(__dirname, '../../Data');
+    // 설정 파일 경로
+    this.configPath = path.join(app.getPath('userData'), 'config.json');
+    // 데이터 경로 로드
+    this.dataPath = this.loadDataPath();
+    // 데이터 폴더 생성
+    this.ensureDataDirectory();
+  }
+
+  // 설정에서 데이터 경로 로드
+  private loadDataPath(): string {
+    try {
+      if (fs.existsSync(this.configPath)) {
+        const config = JSON.parse(fs.readFileSync(this.configPath, 'utf-8'));
+        if (config.dataPath && fs.existsSync(config.dataPath)) {
+          return config.dataPath;
+        }
+      }
+    } catch (error) {
+      console.error('설정 파일 로드 실패:', error);
+    }
+    // 기본값: Documents/Data
+    return path.join(app.getPath('documents'), 'Data');
+  }
+
+  // 데이터 디렉토리 생성
+  private ensureDataDirectory(): void {
+    try {
+      if (!fs.existsSync(this.dataPath)) {
+        fs.mkdirSync(this.dataPath, { recursive: true });
+      }
+    } catch (error) {
+      console.error('데이터 디렉토리 생성 실패:', error);
+    }
+  }
+
+  // 현재 데이터 경로 반환
+  getDataPath(): string {
+    return this.dataPath;
+  }
+
+  // 데이터 경로 변경
+  setDataPath(newPath: string): boolean {
+    try {
+      if (!path.isAbsolute(newPath)) {
+        throw new Error('절대 경로여야 합니다');
+      }
+
+      if (!fs.existsSync(newPath)) {
+        fs.mkdirSync(newPath, { recursive: true });
+      }
+
+      // 설정 저장
+      const config = { dataPath: newPath };
+      fs.writeFileSync(this.configPath, JSON.stringify(config, null, 2));
+      
+      // 내부 경로 업데이트
+      this.dataPath = newPath;
+      
+      return true;
+    } catch (error) {
+      console.error('데이터 경로 변경 실패:', error);
+      return false;
+    }
   }
 
   // 프로젝트 목록 가져오기

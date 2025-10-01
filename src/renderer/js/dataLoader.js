@@ -1,5 +1,10 @@
 const { ipcRenderer } = require('electron');
 
+// IPC API를 전역으로 노출
+window.electronAPI = {
+    invoke: (channel, ...args) => ipcRenderer.invoke(channel, ...args)
+};
+
 let currentProject = null;
 let currentFiles = [];
 
