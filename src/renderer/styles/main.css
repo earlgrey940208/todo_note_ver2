@@ -99,7 +99,9 @@ body {
 }
 
 .app-icon {
-    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
 }
 
 .window-controls {
