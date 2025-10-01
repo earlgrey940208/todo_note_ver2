@@ -75,10 +75,29 @@ function updatePinNote() {
     const pinTextarea = document.querySelector('.pin-textarea');
     const pinFile = currentFiles.find(file => file.type === 'pinnote');
     
+    console.log('updatePinNote 호출:', {
+        pinTextarea,
+        currentProject,
+        currentFiles,
+        setupAutoSave: window.setupAutoSave
+    });
+    
     if (pinFile) {
         pinTextarea.value = pinFile.content;
     } else {
         pinTextarea.value = '';
+    }
+    
+    // Pin Note 자동저장 설정
+    if (window.setupAutoSave && pinTextarea) {
+        // 약간의 지연을 두고 자동저장 설정 (프로젝트 로딩이 완료된 후)
+        setTimeout(() => {
+            console.log('자동저장 설정 시점의 currentProject:', window.getCurrentProject());
+            window.setupAutoSave(pinTextarea, 'pinnote.txt');
+            console.log('Pin Note 자동저장 설정 완료');
+        }, 100);
+    } else {
+        console.error('setupAutoSave 함수 또는 textarea를 찾을 수 없음');
     }
 }
 

@@ -21,7 +21,7 @@ function createWindow(): void {
   mainWindow.loadFile(path.join(__dirname, '../../src/renderer/index.html'));
   
   // 개발 중에는 DevTools 열기
-//   mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // 윈도우 컨트롤 IPC 핸들러
   ipcMain.on('window-minimize', () => {
@@ -62,7 +62,15 @@ function createWindow(): void {
   ipcMain.handle('create-project', (event, projectName: string) => {
     return fileManager.createProject(projectName);
   });
+
+  // 파일 저장 IPC 핸들러
+  ipcMain.handle('save-file', (event, projectName: string, fileName: string, content: string) => {
+    return fileManager.saveFile(projectName, fileName, content);
+  });
 }
+
+// GPU 하드웨어 가속 비활성화 (개발 중 안정성을 위해)
+app.disableHardwareAcceleration();
 
 app.whenReady().then(createWindow);
 

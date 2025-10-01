@@ -204,7 +204,7 @@ async function finishEditing() {
                 }
             }
         } else if (type === 'file') {
-            const currentProject = getCurrentProject();
+            const currentProject = window.getCurrentProject();
             const newFileName = newName + '.txt';
             
             console.log('현재 프로젝트:', currentProject);
@@ -253,12 +253,6 @@ function cleanupEditing() {
         input.remove();
         currentEditingElement = null;
     }
-}
-
-// 현재 선택된 프로젝트 가져오기
-function getCurrentProject() {
-    const activeProjectTab = document.querySelector('.project-item.active');
-    return activeProjectTab ? activeProjectTab.dataset.projectName : null;
 }
 
 // 드래그 앤 드랍 설정

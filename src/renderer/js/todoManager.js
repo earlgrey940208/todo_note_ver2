@@ -62,6 +62,12 @@ function setupTodoCheckboxListeners(tabPane) {
             } else {
                 todoItem.classList.remove('checked');
             }
+            
+            // Todo 체크박스 변경 시 자동저장
+            if (window.saveFile && window.getTodoContent) {
+                const todoContent = window.getTodoContent();
+                window.saveFile('todo.txt', todoContent);
+            }
         });
     });
 }
@@ -123,10 +129,22 @@ function addNewTodoItem(todoList, text, addBtn, inputContainer, input) {
         } else {
             newItem.classList.remove('checked');
         }
+        
+        // Todo 체크박스 변경 시 자동저장
+        if (window.saveFile && window.getTodoContent) {
+            const todoContent = window.getTodoContent();
+            window.saveFile('todo.txt', todoContent);
+        }
     });
     
     // 입력 모드 종료
     cancelAddMode(addBtn, inputContainer, input);
+    
+    // 새 항목 추가 시 자동저장
+    if (window.saveFile && window.getTodoContent) {
+        const todoContent = window.getTodoContent();
+        window.saveFile('todo.txt', todoContent);
+    }
 }
 
 // 추가 모드 취소

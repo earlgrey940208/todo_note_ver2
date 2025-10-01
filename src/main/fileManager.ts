@@ -174,4 +174,22 @@ export class FileManager {
       return false;
     }
   }
+
+  // 파일 저장
+  saveFile(projectName: string, fileName: string, content: string): boolean {
+    try {
+      const projectPath = path.join(this.dataPath, projectName);
+      const filePath = path.join(projectPath, fileName);
+      
+      if (!fs.existsSync(projectPath)) {
+        return false;
+      }
+      
+      fs.writeFileSync(filePath, content, 'utf-8');
+      return true;
+    } catch (error) {
+      console.error('파일 저장 실패:', error);
+      return false;
+    }
+  }
 }

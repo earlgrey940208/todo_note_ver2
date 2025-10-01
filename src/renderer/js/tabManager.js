@@ -78,6 +78,15 @@ function createTab(tabId, icon, label, content, isActive) {
                 spellcheck="false"
             >${content}</textarea>
         `;
+        
+        // 메모 textarea에 자동저장 설정
+        setTimeout(() => {
+            const textarea = tabPane.querySelector('.content-textarea');
+            if (textarea && window.setupAutoSave) {
+                const fileName = `${tabId}.txt`;
+                window.setupAutoSave(textarea, fileName);
+            }
+        }, 0);
     }
 
     tabContent.appendChild(tabPane);
