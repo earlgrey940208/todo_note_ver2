@@ -2,40 +2,39 @@
 
 // Todo 콘텐츠 생성 (체크리스트 형태)
 function createTodoContent(content) {
-    if (!content || content.trim() === '') {
-        return '<div class="todo-list"></div>';
-    }
-    
-    const lines = content.split('\n').filter(line => line.trim() !== '');
     let todoHTML = '<div class="todo-list">';
     
-    lines.forEach((line, index) => {
-        const trimmed = line.trim();
-        if (trimmed === '') return;
+    if (content && content.trim() !== '') {
+        const lines = content.split('\n').filter(line => line.trim() !== '');
         
-        let isChecked = false;
-        let text = '';
-        
-        if (trimmed.startsWith('V ')) {
-            isChecked = true;
-            text = trimmed.substring(2);
-        } else if (trimmed.startsWith('- ')) {
-            isChecked = false;
-            text = trimmed.substring(2);
-        } else {
-            // 형식이 맞지 않는 경우 그대로 표시
-            text = trimmed;
-        }
-        
-        todoHTML += `
-            <div class="todo-item ${isChecked ? 'checked' : ''}" data-index="${index}">
-                <input type="checkbox" class="todo-checkbox" ${isChecked ? 'checked' : ''}>
-                <span class="todo-text">${text}</span>
-            </div>
-        `;
-    });
+        lines.forEach((line, index) => {
+            const trimmed = line.trim();
+            if (trimmed === '') return;
+            
+            let isChecked = false;
+            let text = '';
+            
+            if (trimmed.startsWith('V ')) {
+                isChecked = true;
+                text = trimmed.substring(2);
+            } else if (trimmed.startsWith('- ')) {
+                isChecked = false;
+                text = trimmed.substring(2);
+            } else {
+                // 형식이 맞지 않는 경우 그대로 표시
+                text = trimmed;
+            }
+            
+            todoHTML += `
+                <div class="todo-item ${isChecked ? 'checked' : ''}" data-index="${index}">
+                    <input type="checkbox" class="todo-checkbox" ${isChecked ? 'checked' : ''}>
+                    <span class="todo-text">${text}</span>
+                </div>
+            `;
+        });
+    }
     
-    // 추가 버튼
+    // 추가 버튼 (내용이 있든 없든 항상 표시)
     todoHTML += `
         <div class="todo-add-section">
             <button class="todo-add-btn">+ 추가</button>

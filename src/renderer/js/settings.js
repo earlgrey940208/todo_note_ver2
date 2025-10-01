@@ -11,10 +11,6 @@ class SettingsManager {
         });
 
         // 모달 닫기 이벤트
-        document.getElementById('settings-close').addEventListener('click', () => {
-            this.hideSettings();
-        });
-
         document.getElementById('settings-cancel').addEventListener('click', () => {
             this.hideSettings();
         });
