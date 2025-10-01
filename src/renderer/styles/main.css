@@ -440,26 +440,31 @@ body {
     color: white;
 }
 
-.new-tab-btn {
-    padding: 8px 12px;
-    background: var(--color-orange);
-    border: 1px solid var(--border-secondary);
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s ease;
-    box-shadow: var(--shadow-sm);
+/* 새 메모 탭 스타일 */
+.new-memo-tab {
+    background: #e3f2fd !important;
+    border-color: #bbdefb !important;
+    color: #1976d2 !important;
 }
 
-.new-tab-btn:hover {
-    background: var(--color-amber);
-    border-color: var(--color-orange);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+.new-memo-tab:hover {
+    background: #bbdefb !important;
+    border-color: #90caf9 !important;
+}
+
+/* 새 메모 입력창 스타일 */
+.new-memo-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #1976d2;
+    font-size: 12px;
+    outline: none;
+    padding: 0;
+}
+
+.new-memo-input::placeholder {
+    color: #42a5f5;
 }
 
 /* 탭 컨텐츠 */

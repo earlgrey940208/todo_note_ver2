@@ -24,6 +24,9 @@ function updateTabs() {
         const fileName = file.name.replace('.txt', '');
         createTab(tabId, '📝', fileName, file.content, false);
     });
+
+    // 새 메모 탭 추가
+    createNewMemoTab();
 }
 
 // 탭 생성
@@ -90,6 +93,108 @@ function createTab(tabId, icon, label, content, isActive) {
     }
 
     tabContent.appendChild(tabPane);
+}
+
+// 새 메모 탭 생성
+function createNewMemoTab() {
+    const tabsNav = document.getElementById('tabs-nav');
+    
+    const newMemoTab = document.createElement('div');
+    newMemoTab.className = 'tab new-memo-tab';
+    newMemoTab.innerHTML = `
+        <span class="tab-icon">+</span>
+        <span class="tab-label">새 메모</span>
+    `;
+    
+    // 새 메모 탭 클릭 이벤트
+    newMemoTab.addEventListener('click', () => {
+        showNewMemoInput(newMemoTab);
+    });
+    
+    tabsNav.appendChild(newMemoTab);
+}
+
+// 새 메모 입력창 표시
+function showNewMemoInput(newMemoTab) {
+    // 이미 입력창이 있으면 제거
+    const existingInput = newMemoTab.querySelector('.new-memo-input');
+    if (existingInput) {
+        // 원래 내용으로 복원
+        newMemoTab.innerHTML = `
+            <span class="tab-icon">+</span>
+            <span class="tab-label">새 메모</span>
+        `;
+        return;
+    }
+    
+    // 버튼 내용을 입력창으로 교체
+    newMemoTab.innerHTML = `
+        <input type="text" class="new-memo-input" placeholder="메모 이름 입력" autocomplete="off">
+    `;
+    
+    const input = newMemoTab.querySelector('.new-memo-input');
+    input.focus();
+    
+    // Enter 키로 메모 생성
+    input.addEventListener('keydown', async (e) => {
+        if (e.key === 'Enter') {
+            const memoName = input.value.trim();
+            if (memoName) {
+                const success = await createNewMemo(memoName);
+                if (success) {
+                    // 원래 내용으로 복원
+                    newMemoTab.innerHTML = `
+                        <span class="tab-icon">+</span>
+                        <span class="tab-label">새 메모</span>
+                    `;
+                } else {
+                    alert('메모 생성에 실패했습니다. 이미 존재하는 이름이거나 오류가 발생했습니다.');
+                }
+            }
+        } else if (e.key === 'Escape') {
+            // 원래 내용으로 복원
+            newMemoTab.innerHTML = `
+                <span class="tab-icon">+</span>
+                <span class="tab-label">새 메모</span>
+            `;
+        }
+    });
+    
+    // 포커스 잃을 때 원래 내용으로 복원
+    input.addEventListener('blur', () => {
+        setTimeout(() => {
+            newMemoTab.innerHTML = `
+                <span class="tab-icon">+</span>
+                <span class="tab-label">새 메모</span>
+            `;
+        }, 100);
+    });
+}
+
+// 새 메모 파일 생성
+async function createNewMemo(memoName) {
+    try {
+        const currentProject = window.getCurrentProject();
+        if (!currentProject) {
+            console.error('현재 프로젝트를 찾을 수 없습니다.');
+            return false;
+        }
+        
+        const fileName = memoName + '.txt';
+        const success = await window.ipcRenderer.invoke('create-memo-file', currentProject, fileName);
+        
+        if (success) {
+            // 현재 프로젝트 데이터 다시 로드하여 UI 갱신
+            if (window.loadProject) {
+                await window.loadProject(currentProject.name);
+            }
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error('메모 생성 중 오류:', error);
+        return false;
+    }
 }
 
 // 전역에서 접근 가능하도록 함수 노출

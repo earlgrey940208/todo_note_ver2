@@ -194,4 +194,27 @@ export class FileManager {
       return false;
     }
   }
+
+  // 새 메모 파일 생성
+  createMemoFile(projectName: any, fileName: string): boolean {
+    try {
+      const name = projectName.name || projectName;
+      const projectPath = path.join(this.dataPath, name);
+      const filePath = path.join(projectPath, fileName);
+      
+      if (!fs.existsSync(projectPath)) {
+        return false;
+      }
+      
+      if (fs.existsSync(filePath)) {
+        return false; // 이미 같은 이름의 파일이 존재
+      }
+      
+      fs.writeFileSync(filePath, '', 'utf-8'); // 빈 메모 파일 생성
+      return true;
+    } catch (error) {
+      console.error('메모 파일 생성 실패:', error);
+      return false;
+    }
+  }
 }

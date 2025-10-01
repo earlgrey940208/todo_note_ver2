@@ -67,6 +67,11 @@ function createWindow(): void {
   ipcMain.handle('save-file', (event, projectName: string, fileName: string, content: string) => {
     return fileManager.saveFile(projectName, fileName, content);
   });
+
+  // 새 메모 파일 생성 IPC 핸들러
+  ipcMain.handle('create-memo-file', (event, projectName: string, fileName: string) => {
+    return fileManager.createMemoFile(projectName, fileName);
+  });
 }
 
 // GPU 하드웨어 가속 비활성화 (개발 중 안정성을 위해)
