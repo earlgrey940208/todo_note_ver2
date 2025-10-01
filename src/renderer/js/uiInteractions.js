@@ -163,7 +163,11 @@ function startEditingFileName(memoTab) {
         displayName: currentName 
     };
     
-    input.addEventListener('blur', finishEditing);
+    input.addEventListener('blur', () => {
+        if (!isFinishingEdit) { // 편집이 완료되지 않은 경우에만
+            finishEditing();
+        }
+    });
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             finishEditing();
@@ -242,7 +246,9 @@ async function finishEditing() {
 // 편집 취소
 function cancelEditing() {
     if (!currentEditingElement) return;
+    isFinishingEdit = true; // 편집 완료 플래그 설정 (blur 이벤트 방지)
     cleanupEditing();
+    isFinishingEdit = false; // 플래그 리셋
 }
 
 // 편집 정리

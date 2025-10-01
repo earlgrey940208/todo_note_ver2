@@ -51,6 +51,7 @@ function createTodoContent(content) {
 // Todo 체크박스 이벤트 리스너 설정
 function setupTodoCheckboxListeners(tabPane) {
     const checkboxes = tabPane.querySelectorAll('.todo-checkbox');
+    const todoTexts = tabPane.querySelectorAll('.todo-text');
     
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function() {
@@ -67,6 +68,13 @@ function setupTodoCheckboxListeners(tabPane) {
                 const todoContent = window.getTodoContent();
                 window.saveFile('todo.txt', todoContent);
             }
+        });
+    });
+
+    // Todo 텍스트 더블클릭 편집
+    todoTexts.forEach(todoText => {
+        todoText.addEventListener('dblclick', function() {
+            startEditTodoText(this);
         });
     });
 }
@@ -122,6 +130,8 @@ function addNewTodoItem(todoList, text, addBtn, inputContainer, input) {
     
     // 새 체크박스에 이벤트 리스너 추가
     const checkbox = newItem.querySelector('.todo-checkbox');
+    const todoText = newItem.querySelector('.todo-text');
+    
     checkbox.addEventListener('change', function() {
         if (this.checked) {
             newItem.classList.add('checked');
@@ -134,6 +144,11 @@ function addNewTodoItem(todoList, text, addBtn, inputContainer, input) {
             const todoContent = window.getTodoContent();
             window.saveFile('todo.txt', todoContent);
         }
+    });
+
+    // 새 텍스트에 더블클릭 이벤트 추가
+    todoText.addEventListener('dblclick', function() {
+        startEditTodoText(this);
     });
     
     // 입력 모드 종료
@@ -151,6 +166,77 @@ function cancelAddMode(addBtn, inputContainer, input) {
     addBtn.style.display = 'block';
     inputContainer.style.display = 'none';
     input.value = '';
+}
+
+// Todo 텍스트 편집 시작
+function startEditTodoText(todoText) {
+    const originalText = todoText.textContent;
+    const input = document.createElement('input');
+    let editCompleted = false; // 편집 완료 플래그
+    
+    input.type = 'text';
+    input.value = originalText;
+    input.className = 'edit-input';
+    input.style.fontSize = '14px';
+    input.style.padding = '2px 4px';
+    
+    // 텍스트를 input으로 교체
+    todoText.style.display = 'none';
+    todoText.parentNode.insertBefore(input, todoText.nextSibling);
+    input.focus();
+    input.select();
+    
+    // Enter 키로 편집 완료
+    input.addEventListener('keydown', (e) => {
+        if (editCompleted) return; // 이미 완료된 경우 무시
+        
+        if (e.key === 'Enter') {
+            editCompleted = true;
+            finishEditTodoText(todoText, input, originalText);
+        } else if (e.key === 'Escape') {
+            editCompleted = true;
+            cancelEditTodoText(todoText, input, originalText);
+        }
+    });
+    
+    // 포커스 잃으면 편집 완료
+    input.addEventListener('blur', () => {
+        if (editCompleted) return; // 이미 완료된 경우 무시
+        
+        setTimeout(() => {
+            if (!editCompleted) { // 다시 한번 확인
+                editCompleted = true;
+                finishEditTodoText(todoText, input, originalText);
+            }
+        }, 100);
+    });
+}
+
+// Todo 텍스트 편집 완료
+function finishEditTodoText(todoText, input, originalText) {
+    const newText = input.value.trim();
+    
+    if (newText && newText !== originalText) {
+        todoText.textContent = newText;
+        
+        // 자동저장
+        if (window.saveFile && window.getTodoContent) {
+            const todoContent = window.getTodoContent();
+            window.saveFile('todo.txt', todoContent);
+        }
+    }
+    
+    // 원래 상태로 복원
+    todoText.style.display = '';
+    input.remove();
+}
+
+// Todo 텍스트 편집 취소
+function cancelEditTodoText(todoText, input, originalText) {
+    // 원래 텍스트로 복원
+    todoText.textContent = originalText;
+    todoText.style.display = '';
+    input.remove();
 }
 
 // 전역에서 접근 가능하도록 함수 노출
