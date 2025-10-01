@@ -444,14 +444,14 @@ body {
 
 /* 새 메모 탭 스타일 */
 .new-memo-tab {
-    background: #e3f2fd !important;
-    border-color: #bbdefb !important;
-    color: #1976d2 !important;
+    background: #f5f3ff !important;
+    border-color: #c4b5fd !important;
+    color: #8b5cf6 !important;
 }
 
 .new-memo-tab:hover {
-    background: #bbdefb !important;
-    border-color: #90caf9 !important;
+    background: #ddd6fe !important;
+    border-color: #a78bfa !important;
 }
 
 /* 새 메모 입력창 스타일 */
@@ -459,14 +459,14 @@ body {
     width: 100%;
     border: none;
     background: transparent;
-    color: #1976d2;
+    color: #8b5cf6;
     font-size: 12px;
     outline: none;
     padding: 0;
 }
 
 .new-memo-input::placeholder {
-    color: #42a5f5;
+    color: #a78bfa;
 }
 
 /* 탭 컨텐츠 */
