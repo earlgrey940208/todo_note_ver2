@@ -77,6 +77,14 @@ function setupTodoCheckboxListeners(tabPane) {
             startEditTodoText(this);
         });
     });
+
+    // Todo 로드 시 스크롤을 하단으로 이동
+    const todoList = tabPane.querySelector('.todo-list');
+    if (todoList) {
+        setTimeout(() => {
+            todoList.scrollTop = todoList.scrollHeight;
+        }, 0);
+    }
 }
 
 // Todo 추가 버튼 이벤트 리스너 설정

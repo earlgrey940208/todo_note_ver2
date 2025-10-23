@@ -720,6 +720,8 @@ textarea:focus {
 .todo-list {
     padding: 0;
     margin: 0;
+    overflow-y: auto;
+    max-height: calc(100% - 20px); /* 부모 영역에 맞춰 스크롤 */
 }
 
 .todo-item {
